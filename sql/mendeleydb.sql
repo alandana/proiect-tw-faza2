@@ -8,24 +8,25 @@ USE `mendeleydb`;
 
 
 -- stuctura tabelei folders
+-- un folder o sa fie definit de un id si o denumire a acestuia
 CREATE TABLE IF NOT EXISTS `folders` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(30) DEFAULT NULL,
   `createdAt` timestamp,
   `updatedAt` timestamp, 
   PRIMARY KEY (`id`),
-    KEY `id` (`id`)
+  KEY `id` (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ; 
 
--- structura tabelei `documents`
+-- structura tabelei documents
 CREATE TABLE IF NOT EXISTS `documents` (
   `id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
   `folder_id` smallint(5) DEFAULT NULL,
   `author` varchar(60) DEFAULT NULL,
   `title` varchar(150) DEFAULT NULL,
-  `pages`int,
-  `publicationYear` int,
-  `publisher` varchar(100) DEFAULT NULL,
+  `pages`int, --numarul de pagini
+  `publicationYear` int, --cand a aparut
+  `publisher` varchar(100) DEFAULT NULL,--in ce publicatie a aparut
   `createdAt` timestamp,
   `updatedAt` timestamp,
   PRIMARY KEY (`id`),

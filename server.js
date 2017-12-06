@@ -12,7 +12,7 @@ sequelize.authenticate().then(function(){
     console.log('Success')
 })
 
-
+//creez modelele Sequelize in functie de tabelele din baza de date
 var Folders = sequelize.define('folders', {
     name: Sequelize.STRING, 
     //timestamps: true,
@@ -30,7 +30,7 @@ var Documents = sequelize.define('documents', {
     publisher: Sequelize.STRING
 })
 
-
+//setez foreign key pentru a lega cele doua tabele pe baza id-ului unui folder
 Documents.belongsTo(Folders, {foreignKey: 'folder_id', targetKey: 'id'})
 
 
@@ -42,7 +42,7 @@ app.use(express.json());
 
 
 
-//toate folderele 
+//preluare toate folderele 
 app.get('/folders', function(request, response) {
     Folders.findAll().then(function(folders){
         response.status(200).send(folders)
@@ -50,7 +50,7 @@ app.get('/folders', function(request, response) {
         
 })
 
-// preluare folder dupa id 
+//preluare folder dupa id 
 app.get('/folders/:id', function(request, response) {
     Folders.findOne({where: {id:request.params.id}}).then(function(folders) {
         if(folders) {
@@ -69,7 +69,7 @@ app.post('/folders', function(request, response) {
     })
 })
 
- 
+//update pe folderul preluat dupa id 
 app.put('/folders/:id', function(request, response) {
     Folders.findById(request.params.id).then(function(folder) {
         if(folder) {
@@ -83,6 +83,7 @@ app.put('/folders/:id', function(request, response) {
         }
     })
 }) 
+//stergerea unui anumit folder
 app.delete('/folders/:id', function(request, response) {
     Folders.findById(request.params.id).then(function(folder) {
         if(folder) {
@@ -96,7 +97,7 @@ app.delete('/folders/:id', function(request, response) {
 })
 
 
-//pentru documents 
+//preluarea tuturor documentelor utilizatorului
 app.get('/documents', function(request, response) {
     Documents.findAll().then(
             function(documents) {
@@ -105,7 +106,7 @@ app.get('/documents', function(request, response) {
         )
 })
 
- 
+//preluarea informatiilor despre documentul cu un anumit id
 app.get('/documents/:id', function(request, response) {
     Documents.findById(request.params.id).then(
             function(document){
@@ -118,7 +119,7 @@ app.get('/documents/:id', function(request, response) {
         )
 })
 
-
+//crearea unui document nou
 app.post('/documents', function(request, response) {
    Documents.create(request.body).then(function(documents){
        response.status(201).send(documents)
@@ -139,6 +140,7 @@ app.put('/documents/:id', function(request, response) {
     })
 })
 
+//stergerea unui anumit document
 app.delete('/documents/:id', function(request, response) {
     Documents.findById(request.params.id).then(function(documents) {
         if(documents) {
@@ -150,23 +152,19 @@ app.delete('/documents/:id', function(request, response) {
         }
     })
 })
- 
+ //preluarea documentelor din folderul cu un anumit id
 app.get('/folders/:id/documents', function(request, response) {
     Documents.findAll({where:{folder_id: request.params.id}}).then(
-            function(documents,folders)
+            function(documents)
             
             {
-                if(folders){
             if(documents) {
                 response.status(200).send(documents)
              }
             else{
             response.status(404).send('Not found');
         }}
-        else{
-             response.status(404).send('Not found');
-        }
-    }
+     
         )
 })
 

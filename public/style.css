@@ -108,3 +108,8 @@ a:visited {
 ul#follow {
     text-align: center;
 }
+#butonAdaugare{
+    background-color:#99ff99;
+    font-weight: 600;
+    color: white;
+}
